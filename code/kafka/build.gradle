@@ -2,7 +2,7 @@ group 'ru.spbu.apmath.pt'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.5.10'
+    ext.kotlin_version = '1.8.21'  // 更新 Kotlin 版本
 
     repositories {
         mavenCentral()
@@ -20,30 +20,35 @@ repositories {
 }
 
 compileKotlin {
-    kotlinOptions.jvmTarget = "11"
+    kotlinOptions.jvmTarget = "11"  // 确保 JVM 目标版本为 11
 }
 compileTestKotlin {
     kotlinOptions.jvmTarget = "11"
 }
 
 dependencies {
+    // Kotlin 标准库
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
-    implementation group: 'org.apache.kafka', name: 'kafka-clients', version: '3.3.1'
-    implementation group: 'org.apache.kafka', name: 'kafka-streams', version: '3.3.1'
+    // Kafka 客户端和流
+    implementation group: 'org.apache.kafka', name: 'kafka-clients', version: '3.5.0'
+    implementation group: 'org.apache.kafka', name: 'kafka-streams', version: '3.5.0'
 
-    implementation group: 'com.vk.api', name: 'sdk', version: '1.0.11'
+    // JSON 处理
+    implementation group: 'org.json', name: 'json', version: '20210307'
 
+    // SLF4J 日志
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
     implementation group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
 
-    implementation group: 'org.apache.spark', name: 'spark-streaming_2.12', version: '3.1.2'
-    implementation group: 'org.apache.spark', name: 'spark-core_2.12', version: '3.1.2'
-    implementation group: 'org.apache.spark', name: 'spark-streaming-kafka-0-10_2.12', version: '3.1.2'
+    // Spark 流处理
+    implementation group: 'org.apache.spark', name: 'spark-streaming_2.12', version: '3.4.1'
+    implementation group: 'org.apache.spark', name: 'spark-core_2.12', version: '3.4.1'
+    implementation group: 'org.apache.spark', name: 'spark-streaming-kafka-0-10_2.12', version: '3.4.1'
 }
 
 configurations.compileClasspath {
     resolutionStrategy {
-        force("org.scala-lang:scala-library:2.12.10")
+        force("org.scala-lang:scala-library:2.12.10")  // 确保 Spark 使用正确的 Scala 版本
     }
 }
