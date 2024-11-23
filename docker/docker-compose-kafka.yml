@@ -1,3 +1,5 @@
+#version: "3.9"
+
 services:
   zookeeper: 
     container_name: zookeeper
@@ -46,3 +48,19 @@ services:
       environment:
         KSQL_LISTENERS: "http://0.0.0.0:8088"
         KSQL_BOOTSTRAP_SERVERS: kafka:29092
+
+#  weather-producer:
+#    container_name: weather-producer
+#    build:
+#      context: ../code/kafka/
+#      dockerfile: Dockerfile.weather
+#    depends_on:
+#      - kafka
+#
+#  faust-streaming:
+#    container_name: faust-streaming
+#    build:
+#      context: ../code/
+#      dockerfile: Dockerfile.faust
+#    depends_on:
+#      - kafka

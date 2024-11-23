@@ -29,9 +29,10 @@ object WeatherProducer {
         weatherConfig.getProperty("api_key") ?: throw IllegalArgumentException("API key not found in config")
     }
 
-    // 获取单个城市
-    private val city: String by lazy {
-        weatherConfig.getProperty("city") ?: throw IllegalArgumentException("City not found in config")
+    // 获取城市列表（多个城市以逗号分隔）
+    private val cities: List<String> by lazy {
+        weatherConfig.getProperty("cities")?.split(",")?.map { it.trim() }
+            ?: throw IllegalArgumentException("Cities not found in config")
     }
 
     // 获取天气数据
@@ -62,16 +63,18 @@ object WeatherProducer {
     fun produceWeatherData(props: Properties, topic: String) {
         val producer = KafkaProducer<String, String>(props)
 
-        // 定期发送单个城市的天气数据
+        // 定期发送每个城市的天气数据
         Thread {
             while (true) {
-                val weatherData = fetchWeatherData(city)
-                if (weatherData != null) {
-                    val record = ProducerRecord(topic, city, weatherData)
-                    producer.send(record)
-                    println("Sent weather data to Kafka: $weatherData")
-                } else {
-                    println("Failed to fetch weather data for $city")
+                for (city in cities) {
+                    val weatherData = fetchWeatherData(city)
+                    if (weatherData != null) {
+                        val record = ProducerRecord(topic, city, weatherData)
+                        producer.send(record)
+                        println("Sent weather data to Kafka for $city: $weatherData")
+                    } else {
+                        println("Failed to fetch weather data for $city")
+                    }
                 }
                 Thread.sleep(60000)  // 每分钟发送一次
             }

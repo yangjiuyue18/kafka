@@ -1,0 +1,13 @@
+FROM openjdk:17-jdk-slim
+
+# 设置工作目录
+WORKDIR /app
+
+# 复制所有代码
+COPY . /app
+
+# 构建项目
+RUN ./gradlew build --no-daemon
+
+# 运行 Producer 程序
+CMD ["java", "-cp", "build/libs/OpenWeather-1.0-SNAPSHOT.jar", "ru.spbu.apmath.pt.WeatherKafkaProducer"]
