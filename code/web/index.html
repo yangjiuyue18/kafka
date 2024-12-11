@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home</title>
+  <link rel="stylesheet" href="css/index.css" />
+  <link rel="stylesheet" href="js/bootstrap-4.6.1-dist/css/bootstrap.min.css"/>
+  <script src="js/jquery.js"></script>
+  <script type="text/javascript" src="js/bootstrap-4.6.1-dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Weather conditions in various cities</h1>
+    <div class="showTime">Time：2024年12月1-00时00分00秒</div>
+    <script>
+      var t = null;
+      var y = 0;
+      var mt = 0;
+      var day = 0;
+      t = setTimeout(time, 1000); // 开始运行
+      function appendZero(obj) {
+        if (obj < 10) {
+          return '0' + obj;
+        } else {
+          return obj;
+        }
+      }
+      function time() {
+        clearTimeout(t); // 清除定时器
+        var dt = new Date();
+        y = dt.getFullYear();
+        mt = dt.getMonth() + 1;
+        day = dt.getDate();
+        var h = dt.getHours(); // 获取时
+        var m = dt.getMinutes(); // 获取分
+        var s = dt.getSeconds(); // 获取秒
+        document.querySelector(".showTime").innerHTML =
+          "Time：" + y + "-" + appendZero(mt) + "-" + appendZero(day) + "  " + appendZero(h) + ":" + appendZero(m) + ":" + appendZero(s);
+        t = setTimeout(time, 1000); // 设定定时器，循环运行
+      }
+    </script>
+  </header>
+    <section class="mainbox">
+      <div class="column">
+        <div class="panel list1">
+          <div class="panel-header">
+            <h2>Weather</h2>
+          </div>
+          <div class="panel-body">
+            <ul class="list">
+              <li><span class="city">城市1</span> <span class="weather">天气1</span></li>
+              <li><span class="city">城市2</span> <span class="weather">天气2</span></li>
+              <li><span class="city">城市3</span> <span class="weather">天气3</span></li>
+              <li><span class="city">城市4</span> <span class="weather">天气4</span></li>
+              <li><span class="city">城市5</span> <span class="weather">天气5</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="panel chart">
+          <div class="panel-header">
+            <h2>averageTemperature</h2>
+          </div>
+          <div class="chart-bar" id="averageTemperatureChart"></div>
+        </div>
+        <div class="panel chart">
+          <div class="panel-header">
+            <h2>Feel Temperature</h2>
+          </div>
+          <div class="chart-buttle" id="feelTemperatureChart"></div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="no">
+          <div class="no-hd">
+            <ul>
+              <li class="low-temperature-cities"><span class="count">0</span></li>
+              <li class="moderate-cities"><span class="count">0</span></li>
+              <li class="high-temperature-cities"><span class="count">0</span></li>
+            </ul>
+          </div>
+          <div class="no-bd">
+            <ul>
+              <li>low temperature cities(≤0°C)</li>
+              <li>moderate cities</li>
+              <li>high temperature cities(≥15°C)</li>
+            </ul>
+          </div>
+        </div>
+        <div class="map">
+          <div class="map-title" style="font-size: 27px; color: #0084ff; position: absolute; top: 0; left: 0;">
+            China City Temperature Map
+          </div>
+          <div class="chart"></div>
+          <div class="map1"></div>
+          <div class="map2"></div>
+          <div class="map3"></div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="panel chart3">
+          <div class="panel-header">
+            <h2>Cloud</h2>
+          </div>
+          <div class="chart-buttle" id="cloudBubbleChart"></div>
+        </div>
+        <div class="panel chart2">
+          <div class="panel-header">
+            <h2>Humidity</h2>
+          </div>
+          <div class="chart-bar" id="HumidityChart"></div>
+        </div>
+        <div class="panel list6">
+          <div class="panel-header">
+            <h2>Wind Speed</h2>
+          </div>
+          <div class="panel-body">
+            <ul class="list">
+              <li><span class="city">城市1</span> <span class="weather">风速1</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script src="js/jquery.js"></script>
+    <script src="js/echarts.min.js"></script>
+    <script src="js/index.js"></script>
+    <script src="js/china.js"></script>
+    <script src="js/mymap.js"></script>
+
+  </body>
+</html>

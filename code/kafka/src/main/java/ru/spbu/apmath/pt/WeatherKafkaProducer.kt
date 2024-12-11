@@ -76,7 +76,7 @@ object WeatherProducer {
                         println("Failed to fetch weather data for $city")
                     }
                 }
-                Thread.sleep(60000)  // 每分钟发送一次
+                Thread.sleep(1800000)  // 60000每分钟发送一次
             }
         }.start()
     }

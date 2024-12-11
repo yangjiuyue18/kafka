@@ -1,4 +1,55 @@
 # Kafka Weather Dashboard
+
+This project fetches city weather data via API, processes the data streams using Kafka, and displays the data in real-time through a web interface. 
+The overall architecture includes a Kafka producer, a Faust stream processing application, and a web dashboard based on FastAPI.
+
+## Directory Structure
+    kafka-main/
+
+        └── code/
+
+              └── kafka/src/main/java/ru/spbu/apmath/pt/
+
+                        └─ WeatherKafkaProducer.kt
+
+              └── web/
+
+              └ fastapi_dashboard.py
+
+              └ faust_streams.py
+
+        └── docker/
+
+              └ docker-compose-kafka.yml
+
+## Running Steps
+
+### 1. Start Kafka Containers
+In the `docker` directory, run the following command to start Kafka and Zookeeper containers: 
+```sh
+docker-compose -f docker-compose-kafka.yml up -d
+# Note: It may be necessary to run this command twice, the first time to start the base containers, and the second time to ensure they are updated and running properly.
+```
+
+### 2. Start the Faust Stream Processing Application
+In the `kafka-main/code` directory, run the following command to start the Faust stream processing application:
+```sh
+python faust_streams.py worker
+# This application will listen for weather data in Kafka and perform exception handling and data processing.
+```
+
+### 3. Start the Kafka Producer
+Navigate to the `Kafka` producer code directory and compile and run the `WeatherKafkaProducer.kt file`. 
+The specific steps may vary depending on your development environment, such as using `IntelliJ IDEA` or `Android Studio` for compilation and execution.
+```sh
+cd code/kafka/src/main/java/ru/spbu/apmath/pt
+# Compile and run WeatherKafkaProducer.kt according to your environment.
+```
+
+### 4. Start the Web Application
+In the `kafka-main/code directory`, run the following command to start the web application based on `FastAPI`:
+```sh
+uvicorn fastapi_dashboard:app --host
  
 ## Kafka Weather Dashboard
  

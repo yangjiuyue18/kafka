@@ -1,0 +1,6 @@
+Beijing: {'weather': 'Clouds', 'temperature': -2.06, 'feel_temperature': -2.06, 'cloud': 100, 'humidity': 37, 'wind': 1.19, 'average_temperature': -2.06}
+Zhengzhou: {'weather': 'Clouds', 'temperature': 4.23, 'feel_temperature': 2.94, 'cloud': 100, 'humidity': 29, 'wind': 1.6, 'average_temperature': 4.23}
+Hubei: {'weather': 'Clouds', 'temperature': -6.55, 'feel_temperature': -6.55, 'cloud': 100, 'humidity': 68, 'wind': 0.76, 'average_temperature': -6.55}
+Hunan: {'weather': 'Clouds', 'temperature': 19.49, 'feel_temperature': 20.08, 'cloud': 100, 'humidity': 99, 'wind': 2.07, 'average_temperature': 19.49}
+Guangdong: {'weather': 'Clouds', 'temperature': 21.07, 'feel_temperature': 20.88, 'cloud': 100, 'humidity': 63, 'wind': 2.61, 'average_temperature': 21.07}
+Hebei: {'weather': 'Clouds', 'temperature': 1.7, 'feel_temperature': 1.7, 'cloud': 40, 'humidity': 42, 'wind': 1.13, 'average_temperature': 1.7}
