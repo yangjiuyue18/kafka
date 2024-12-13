@@ -1,13 +1,21 @@
+# 使用轻量级的 OpenJDK 镜像
 FROM openjdk:17-jdk-slim
 
 # 设置工作目录
 WORKDIR /app
 
-# 复制所有代码
+# 复制所有代码到容器
 COPY . /app
 
-# 构建项目
-RUN ./gradlew build --no-daemon
+# 添加执行权限给 gradlew
+RUN chmod +x ./gradlew
 
-# 运行 Producer 程序
-CMD ["java", "-cp", "build/libs/OpenWeather-1.0-SNAPSHOT.jar", "ru.spbu.apmath.pt.WeatherKafkaProducer"]
+# 设置 Gradle 用户目录为 /app/.gradle（防止权限问题）
+ENV GRADLE_USER_HOME=/app/.gradle
+
+# 构建项目
+RUN ./gradlew build --no-daemon --stacktrace
+
+# 运行 Kafka Producer 程序
+CMD ["java", "-jar", "build/libs/OpenWeather-1.0-SNAPSHOT-all.jar"]
+

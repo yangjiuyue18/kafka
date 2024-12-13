@@ -53,7 +53,7 @@ services:
 #    container_name: weather-producer
 #    build:
 #      context: ../code/kafka/
-#      dockerfile: Dockerfile.weather
+#      dockerfile: docker-compose.yml.fastapi.weather
 #    depends_on:
 #      - kafka
 #
@@ -61,6 +61,6 @@ services:
 #    container_name: faust-streaming
 #    build:
 #      context: ../code/
-#      dockerfile: Dockerfile.faust
+#      dockerfile: docker-compose.yml.fastapi.faust
 #    depends_on:
 #      - kafka

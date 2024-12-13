@@ -1,47 +1,29 @@
-group 'ru.spbu.apmath.pt'
-version '1.0-SNAPSHOT'
-
-buildscript {
-    ext.kotlin_version = '1.8.21'  // 更新 Kotlin 版本
-
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
+plugins {
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.8.21'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
-apply plugin: 'java'
-apply plugin: 'kotlin'
+group 'ru.spbu.apmath.pt'
+version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
 }
 
-compileKotlin {
-    kotlinOptions.jvmTarget = "11"  // 确保 JVM 目标版本为 11
-}
-compileTestKotlin {
-    kotlinOptions.jvmTarget = "11"
-}
-
 dependencies {
-    // Kotlin 标准库
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.8.21"
 
-    // Kafka 客户端和流
     implementation group: 'org.apache.kafka', name: 'kafka-clients', version: '3.5.0'
     implementation group: 'org.apache.kafka', name: 'kafka-streams', version: '3.5.0'
 
-    // JSON 处理
     implementation group: 'org.json', name: 'json', version: '20210307'
 
-    // SLF4J 日志
+    implementation group: 'log4j', name: 'log4j', version: '1.2.17'
+
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
     implementation group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
 
-    // Spark 流处理
     implementation group: 'org.apache.spark', name: 'spark-streaming_2.12', version: '3.4.1'
     implementation group: 'org.apache.spark', name: 'spark-core_2.12', version: '3.4.1'
     implementation group: 'org.apache.spark', name: 'spark-streaming-kafka-0-10_2.12', version: '3.4.1'
@@ -49,6 +31,38 @@ dependencies {
 
 configurations.compileClasspath {
     resolutionStrategy {
-        force("org.scala-lang:scala-library:2.12.10")  // 确保 Spark 使用正确的 Scala 版本
+        force("org.scala-lang:scala-library:2.12.10")
     }
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+}
+
+tasks.withType(com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar).configureEach {
+    archiveBaseName.set('OpenWeather')
+    archiveVersion.set('1.0-SNAPSHOT')
+    archiveClassifier.set('all')
+
+    // 启用 zip64 支持，防止超过 65535 条目时报错
+    zip64 = true
+
+    // 指定主类
+    manifest {
+        attributes(
+                'Main-Class': 'ru.spbu.apmath.pt.WeatherKafkaProducerKt'
+        )
+    }
+}
+
+tasks.build {
+    dependsOn tasks.shadowJar
 }

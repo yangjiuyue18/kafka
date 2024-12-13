@@ -1,0 +1,16 @@
+aiohttp==3.11.7
+aiohttp-cors==0.7.0
+aiokafka==0.12.0
+attrs==24.2.0
+click==8.1.7
+colorlog==6.9.0
+fastapi==0.115.6
+faust-streaming==0.11.3
+jsonschema==4.23.0
+numpy==1.26.4
+pandas==2.1.4
+protobuf==4.25.5
+pydantic==2.10.3
+requests==2.31.0
+uvicorn==0.32.1
+yarl==1.18.0

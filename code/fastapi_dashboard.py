@@ -7,9 +7,9 @@ import ast
 import json
  
 app = FastAPI()
-WEATHER_DATA_FILE = 'latest_weather_data.txt'
-WEATHER_HISTORY_FILE = 'weather_history.txt'
-MAP_DATA_FILE = 'map_data.txt'
+WEATHER_DATA_FILE = 'data/latest_weather_data.txt'
+WEATHER_HISTORY_FILE = 'data/weather_history.txt'
+MAP_DATA_FILE = 'data/map_data.txt'
 
 # 挂载静态文件服务，但不直接暴露给用户
 app.mount("/static", StaticFiles(directory="web"), name="web_files")

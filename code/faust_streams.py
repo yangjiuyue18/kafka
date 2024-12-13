@@ -9,11 +9,11 @@ import asyncio
 latest_weather_data = {}
 counter = 0
 MAX_SHOW = 6
-WEATHER_DATA_FILE = 'latest_weather_data.txt'
-HISTORY_DATA_FILE = 'weather_history.txt'
+WEATHER_DATA_FILE = 'data/latest_weather_data.txt'
+HISTORY_DATA_FILE = 'data/weather_history.txt'
 weather_history = []
 map_data = {}
-MAP_DATA_FILE = 'map_data.txt'
+MAP_DATA_FILE = 'data/map_data.txt'
 
 update_lock = False
 last_update_time = None
@@ -28,9 +28,15 @@ class Weather(faust.Record):
     main: dict
 
 # 创建 Faust 应用
+# app = faust.App(
+#     'weather_faust_app',
+#     broker='kafka://localhost:9092',
+#     store='memory://',
+# )
+
 app = faust.App(
     'weather_faust_app',
-    broker='kafka://localhost:9092',
+    broker=os.getenv('KAFKA_BROKER', 'kafka://kafka:9092'),
     store='memory://',
 )
 

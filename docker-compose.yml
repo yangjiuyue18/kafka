@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  kafka-producer:
+    build:
+      context: ./code/kafka
+      dockerfile: Dockerfile.weather
+    container_name: kafka-producer
+    depends_on:
+      - kafka
+    environment:
+      # Kafka broker 地址
+      KAFKA_BROKER: kafka:9092
+    networks:
+      - spark_network
+
+  fastapi:
+    build:
+      context: ./code
+      dockerfile: Dockerfile.fastapi
+    container_name: fastapi-dashboard
+    ports:
+      - "8080:8080"  # 映射 FastAPI 服务的端口
+    volumes:
+      - ./code/data:/app/data  # 挂载数据目录
+    networks:
+      - spark_network
+
+  faust:
+    build:
+      context: ./code
+      dockerfile: Dockerfile.faust
+    container_name: faust-streams
+    depends_on:
+      - kafka
+    environment:
+      # Kafka broker 地址
+      KAFKA_BROKER: kafka:9092
+    volumes:
+      - ./code/data:/app/data  # 挂载数据目录
+    networks:
+      - spark_network
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    ports:
+      - "9092:9092"  # 映射 Kafka 服务的端口
+    networks:
+      - spark_network
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+    ports:
+      - "2181:2181"  # 映射 Zookeeper 服务的端口
+    networks:
+      - spark_network
+
+networks:
+  spark_network:
+    driver: bridge
